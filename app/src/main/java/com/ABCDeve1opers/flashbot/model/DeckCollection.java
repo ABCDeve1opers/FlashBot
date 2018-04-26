@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.model;
+package com.ABCDeve1opers.flashbot.model;
 
 import android.util.Log;
 

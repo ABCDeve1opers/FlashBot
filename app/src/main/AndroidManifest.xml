@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.melvil.stacksrs.view">
+    package="com.ABCDeve1opers.flashbot.view">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,9 +10,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/BlueTheme">
         <activity
-            android:name=".DeckListActivity"
+            android:name="com.ABCDeve1opers.flashbot.view.DeckListActivity"
             android:screenOrientation="portrait"
             android:label="StackSRS">
             <intent-filter>
@@ -22,13 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReviewActivity"
+            android:name="com.ABCDeve1opers.flashbot.view.ReviewActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".DeckDownloadActivity"
+            android:name="com.ABCDeve1opers.flashbot.view.DeckDownloadActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".DeckBrowserActivity"
+            android:name="com.ABCDeve1opers.flashbot.view.DeckBrowserActivity"
             android:screenOrientation="portrait"/>
     </application>
 

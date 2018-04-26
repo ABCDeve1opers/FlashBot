@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.view;
+package com.ABCDeve1opers.flashbot.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import de.melvil.stacksrs.adapter.DownloadableDeckInfoAdapter;
-import de.melvil.stacksrs.model.Card;
-import de.melvil.stacksrs.model.Deck;
-import de.melvil.stacksrs.model.DeckCollection;
-import de.melvil.stacksrs.model.DownloadableDeckInfo;
+import com.ABCDeve1opers.flashbot.adapter.DownloadableDeckInfoAdapter;
+import com.ABCDeve1opers.flashbot.model.Card;
+import com.ABCDeve1opers.flashbot.model.Deck;
+import com.ABCDeve1opers.flashbot.model.DeckCollection;
+import com.ABCDeve1opers.flashbot.model.DownloadableDeckInfo;
 
 /**
  * This activity connects to the deck server and presents all downloadable decks along with
@@ -35,7 +35,7 @@ import de.melvil.stacksrs.model.DownloadableDeckInfo;
  */
 public class DeckDownloadActivity extends AppCompatActivity {
 
-    private final String SERVER_URL = "http://stacksrs.droppages.com/";
+    private final String SERVER_URL = "http://flashbot.droppages.com/";
 
     private DownloadableDeckInfoAdapter deckListAdapter;
     private List<DownloadableDeckInfo> deckNames = new ArrayList<>();

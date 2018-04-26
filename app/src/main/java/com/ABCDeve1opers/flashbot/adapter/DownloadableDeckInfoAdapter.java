@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.adapter;
+package com.ABCDeve1opers.flashbot.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import de.melvil.stacksrs.model.DownloadableDeckInfo;
-import de.melvil.stacksrs.view.R;
+import com.ABCDeve1opers.flashbot.model.DownloadableDeckInfo;
+import com.ABCDeve1opers.flashbot.view.R;
 
 /**
  * Adapter class to display deck info (name, description) in the list view of DeckDownloadActivity

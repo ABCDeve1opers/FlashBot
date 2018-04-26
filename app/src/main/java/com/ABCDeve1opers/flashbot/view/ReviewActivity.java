@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.view;
+package com.ABCDeve1opers.flashbot.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,9 +21,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.Locale;
 
-import de.melvil.stacksrs.model.Card;
-import de.melvil.stacksrs.model.Deck;
-import de.melvil.stacksrs.model.DeckCollection;
+import com.ABCDeve1opers.flashbot.model.Card;
+import com.ABCDeve1opers.flashbot.model.Deck;
+import com.ABCDeve1opers.flashbot.model.DeckCollection;
 
 /**
  * The ReviewActivity is the activity where the actual learning takes place.

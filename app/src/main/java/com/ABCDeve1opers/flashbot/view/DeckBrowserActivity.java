@@ -1,12 +1,12 @@
-package de.melvil.stacksrs.view;
+package com.ABCDeve1opers.flashbot.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +18,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ABCDeve1opers.flashbot.model.Card;
+import com.ABCDeve1opers.flashbot.model.Deck;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.melvil.stacksrs.model.Card;
-import de.melvil.stacksrs.model.Deck;
 
 /**
  * The deck browser is a tool to search for specific cards and to modify/delete them easily. All

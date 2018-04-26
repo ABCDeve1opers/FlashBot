@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.view;
+package com.ABCDeve1opers.flashbot.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,10 +20,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import de.melvil.stacksrs.adapter.DeckInfoAdapter;
-import de.melvil.stacksrs.model.Card;
-import de.melvil.stacksrs.model.Deck;
-import de.melvil.stacksrs.model.DeckCollection;
+import com.ABCDeve1opers.flashbot.adapter.DeckInfoAdapter;
+import com.ABCDeve1opers.flashbot.model.Card;
+import com.ABCDeve1opers.flashbot.model.Deck;
+import com.ABCDeve1opers.flashbot.model.DeckCollection;
 
 /**
  * The DeckListActivity is the entry screen of StackSRS and shows all decks in a list view. Next to

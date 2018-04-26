@@ -1,4 +1,4 @@
-package de.melvil.stacksrs.model;
+package com.ABCDeve1opers.flashbot.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

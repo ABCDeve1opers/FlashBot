@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
 
     defaultConfig {
-        applicationId "de.melvil.stacksrs"
+        applicationId "de.ABCDeve1opers.flashbot"
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 6
