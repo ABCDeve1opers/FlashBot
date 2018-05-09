@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,20 +17,21 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.ABCDeve1opers.flashbot.adapter.DeckInfoAdapter;
 import com.ABCDeve1opers.flashbot.model.Card;
 import com.ABCDeve1opers.flashbot.model.Deck;
 import com.ABCDeve1opers.flashbot.model.DeckCollection;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * The DeckListActivity is the entry screen of StackSRS and shows all decks in a list view. Next to
  * the name of each deck, the total number of cards (blue), the number of remaining cards to learn
  * (red) and the number of cards already mastered (green) is displayed.
  */
-public class DeckListActivity extends AppCompatActivity {
+public class DeckListActivity extends AppCompatActivity
+{
 
     private DeckInfoAdapter deckListAdapter;
     private DeckCollection deckCollection = new DeckCollection();
@@ -90,25 +91,25 @@ public class DeckListActivity extends AppCompatActivity {
             }
         });
 
-        newButton = (Button) findViewById(R.id.button_new);
-        downloadButton = (Button) findViewById(R.id.button_download);
-
-        newButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNewDeckDialog();
-            }
-        });
-
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // switch to download activity
-                Intent intent = new Intent(getApplicationContext(), DeckDownloadActivity.class);
-                startActivity(intent);
-            }
-        });
-
+//        newButton = (Button) findViewById(R.id.button_new);
+//        downloadButton = (Button) findViewById(R.id.button_download);
+//
+//        newButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showNewDeckDialog();
+//            }
+//        });
+//
+//        downloadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // switch to download activity
+//                Intent intent = new Intent(getApplicationContext(), DeckDownloadActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 

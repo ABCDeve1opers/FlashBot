@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
         <activity
-            android:name="com.ABCDeve1opers.flashbot.view.DeckListActivity"
-            android:screenOrientation="portrait"
-            android:label="StackSRS">
+            android:name=".NavDrawerActivity"
+            android:label="FlashBot"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,14 +22,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ABCDeve1opers.flashbot.view.ReviewActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".ReviewActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.ABCDeve1opers.flashbot.view.DeckDownloadActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".DeckDownloadActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.ABCDeve1opers.flashbot.view.DeckBrowserActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".DeckBrowserActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:namNavDrawerActivityvity"-->
+            <!--android:label="@string/title_activity_main2"-->
+            <!--android:theme="@style/BlueTheme.NoActionBar"></activity>-->
     </application>
 
 </manifest>

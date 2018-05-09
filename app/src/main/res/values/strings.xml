@@ -77,5 +77,9 @@
     <string name="language_back">Back Language (e.g. \"en\")</string>
     <string name="accent_optional">Accent (e.g. \"US\", \"GB\")</string>
     <string name="read_back_aloud">Read back aloud</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>
