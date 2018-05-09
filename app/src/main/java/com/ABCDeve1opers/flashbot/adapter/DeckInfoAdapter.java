@@ -1,16 +1,21 @@
 package com.ABCDeve1opers.flashbot.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
+import com.ABCDeve1opers.flashbot.model.DeckCollection;
 import com.ABCDeve1opers.flashbot.model.DeckInfo;
+import com.ABCDeve1opers.flashbot.view.DeckListActivity;
 import com.ABCDeve1opers.flashbot.view.R;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Adapter class to display deck info (name and statistics) in the list view of DeckListActivity
@@ -43,5 +48,38 @@ public class DeckInfoAdapter extends ArrayAdapter<DeckInfo> {
         viewNumKnownCards.setText(deckInfo.getNumKnownCards());
 
         return deckInfoView;
+    }
+
+    /**
+     * Filter the search results of the list of decks
+     *
+     * @param charText the partial query
+     */
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        DeckListActivity.getDeckList().clear();
+        DeckCollection deckCollection = new DeckCollection();
+
+        // Reinitialize collection
+        try {
+            deckCollection.reload(DeckCollection.flashBotDir);
+        } catch (IOException e) {
+            Log.e(this.getClass().toString(), "Error reloading deck for getting deckInfos");
+            e.printStackTrace();
+        }
+        List<DeckInfo> deckInfos = deckCollection.getDeckInfos();
+
+        // Either filter the decks or show all decks if there is no query
+        if (charText.length() == 0) {
+            DeckListActivity.getDeckList().addAll(deckInfos);
+        } else {
+            for (DeckInfo di : deckInfos) {
+                if (di.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    DeckListActivity.getDeckList().add(di);
+                }
+            }
+        }
+        // reload list for view
+        notifyDataSetChanged();
     }
 }

@@ -41,12 +41,12 @@ public class Deck {
 
     public static Deck loadDeck(String name) throws IOException {
         // load deck from file using GSON
-        File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
+        File file = new File(DeckCollection.flashBotDir + "/" + name + ".json");
         return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
     }
 
     public File getDeckFile(){
-        return new File(DeckCollection.stackSRSDir + "/" + name + ".json");
+        return new File(DeckCollection.flashBotDir + "/" + name + ".json");
     }
 
     public void saveDeck() {
@@ -71,7 +71,7 @@ public class Deck {
     private void saveStatistics() {
         try {   // adding the statistics of this deck to the global stats file
             Properties stats = new Properties();
-            File statsFile = new File(DeckCollection.stackSRSDir + "/stats");
+            File statsFile = new File(DeckCollection.flashBotDir + "/stats");
             if (!statsFile.exists()) // create stats file if it does not exist
                 statsFile.createNewFile();
             stats.load(new FileReader(statsFile));

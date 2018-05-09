@@ -3,14 +3,19 @@ package com.ABCDeve1opers.flashbot.view;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.AudioManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ABCDeve1opers.flashbot.adapter.DownloadableDeckInfoAdapter;
+import com.ABCDeve1opers.flashbot.model.Card;
+import com.ABCDeve1opers.flashbot.model.Deck;
+import com.ABCDeve1opers.flashbot.model.DeckCollection;
+import com.ABCDeve1opers.flashbot.model.DownloadableDeckInfo;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -23,11 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import com.ABCDeve1opers.flashbot.adapter.DownloadableDeckInfoAdapter;
-import com.ABCDeve1opers.flashbot.model.Card;
-import com.ABCDeve1opers.flashbot.model.Deck;
-import com.ABCDeve1opers.flashbot.model.DeckCollection;
-import com.ABCDeve1opers.flashbot.model.DownloadableDeckInfo;
 
 /**
  * This activity connects to the deck server and presents all downloadable decks along with
@@ -62,7 +62,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                 // check if there already is a deck with the same name
                 DeckCollection deckCollection = new DeckCollection();
                 try {
-                    deckCollection.reload(DeckCollection.stackSRSDir);
+                    deckCollection.reload(DeckCollection.flashBotDir);
                 } catch(IOException e){
                     e.printStackTrace();
                 }

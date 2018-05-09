@@ -273,7 +273,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
             sharingIntent.setType("text/plain");
             sharingIntent.putExtra(Intent.EXTRA_TITLE, R.string.share_deck);
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT,
-                    getResources().getString(R.string.shared_stacksrs_deck, deck.getName()));
+                    getResources().getString(R.string.shared_flashBot_deck, deck.getName()));
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                     deck.getDeckContentAsCsvString());
             startActivity(Intent.createChooser(sharingIntent,

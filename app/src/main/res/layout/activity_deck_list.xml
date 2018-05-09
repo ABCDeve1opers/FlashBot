@@ -44,6 +44,15 @@
                 android:text="@string/download_deck" />
         </LinearLayout>
 
+        <SearchView
+            android:id="@+id/deckSearchView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false">
+
+            <requestFocus />
+        </SearchView>
+
         <ListView
             android:id="@+id/deck_list"
             android:layout_width="match_parent"

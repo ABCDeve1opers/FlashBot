@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class DeckCollection {
 
-    public static File stackSRSDir; // location of the deck files, also directly used by activities
+    public static File flashBotDir; // location of the deck files, also directly used by activities
 
     private final List<String> deckNames = new ArrayList<>();
     private final List<DeckInfo> deckInfos = new ArrayList<>();
@@ -22,8 +22,8 @@ public class DeckCollection {
         deckNames.clear();
         deckInfos.clear();
         // scanning the folder for deck files
-        stackSRSDir = dir;
-        File[] deckFiles = stackSRSDir.listFiles();
+        flashBotDir = dir;
+        File[] deckFiles = flashBotDir.listFiles();
         if(deckFiles == null){
             throw new IOException("Deck files are not accessible.");
         }
@@ -36,7 +36,7 @@ public class DeckCollection {
         // load statistics
         Properties stats = new Properties();
         try {
-            File statsFile = new File(stackSRSDir + "/stats");
+            File statsFile = new File(flashBotDir + "/stats");
             if (!statsFile.exists()) { // create stats file if it does not exist
                 boolean createSuccess = statsFile.createNewFile();
                 if(!createSuccess){
@@ -72,7 +72,7 @@ public class DeckCollection {
     }
 
     public void deleteDeckFile(String deckName){
-        File deckFile = new File(stackSRSDir + "/" + deckName + ".json");
+        File deckFile = new File(flashBotDir + "/" + deckName + ".json");
         if(deckFile.exists())
             deckFile.delete();
     }
