@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
         <activity
-            android:name=".NavDrawerActivity"
+            android:name=".DeckListActivity"
             android:label="FlashBot"
             android:screenOrientation="portrait">
             <intent-filter>
