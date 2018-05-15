@@ -18,12 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.Locale;
-
 import com.ABCDeve1opers.flashbot.model.Card;
 import com.ABCDeve1opers.flashbot.model.Deck;
 import com.ABCDeve1opers.flashbot.model.DeckCollection;
+
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * The ReviewActivity is the activity where the actual learning takes place.
@@ -327,7 +327,7 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     DeckCollection deckCollection = new DeckCollection();
                     try {
-                        deckCollection.reload(DeckCollection.stackSRSDir);
+                        deckCollection.reload(DeckCollection.flashBotDir);
                     } catch (IOException e){
                         e.printStackTrace();
                     }

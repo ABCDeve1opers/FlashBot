@@ -14,34 +14,43 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.ABCDeve1opers.flashbot.adapter.DeckInfoAdapter;
 import com.ABCDeve1opers.flashbot.model.Card;
 import com.ABCDeve1opers.flashbot.model.Deck;
 import com.ABCDeve1opers.flashbot.model.DeckCollection;
+import com.ABCDeve1opers.flashbot.model.DeckInfo;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * The DeckListActivity is the entry screen of StackSRS and shows all decks in a list view. Next to
+ * The DeckListActivity is the entry screen of FlashBot and shows all decks in a list view. Next to
  * the name of each deck, the total number of cards (blue), the number of remaining cards to learn
  * (red) and the number of cards already mastered (green) is displayed.
  */
+
 public class DeckListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener
-{
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+
 
     private DeckInfoAdapter deckListAdapter;
     private DeckCollection deckCollection = new DeckCollection();
@@ -49,6 +58,23 @@ public class DeckListActivity extends AppCompatActivity
 
     private Button newButton;
     private Button downloadButton;
+
+    private static List<DeckInfo> deckList;
+    private SearchView deckSearchView;
+
+    public static List<DeckInfo> getDeckList() {
+        return deckList;
+    }
+
+    public static void setDeckList(List<DeckInfo> newDeckList) {
+        deckList = newDeckList;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadDeckList();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +85,13 @@ public class DeckListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         ListView deckListView = (ListView) findViewById(R.id.deck_list);
-        deckListAdapter = new DeckInfoAdapter(this, deckCollection.getDeckInfos());
+        deckList = deckCollection.getDeckInfos();
+        deckListAdapter = new DeckInfoAdapter(this, deckList);
         deckListView.setAdapter(deckListAdapter);
+
+        // Locate the EditText in activity_deck_list.xml for searching
+        deckSearchView = (SearchView) findViewById(R.id.deckSearchView);
+        deckSearchView.setOnQueryTextListener(this);
 
         // normal click: open deck
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,7 +153,6 @@ public class DeckListActivity extends AppCompatActivity
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,33 +174,7 @@ public class DeckListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        reloadDeckList();
-    }
-
-    public void reloadDeckList() {
-        try {
-            File stackSRSDir = provideStackSRSDir();
-            deckCollection.reload(stackSRSDir);
-        } catch(IOException e){
-            Toast.makeText(this, getString(R.string.collection_could_not_be_loaded),
-                    Toast.LENGTH_SHORT).show();
-        }
-        deckListAdapter.notifyDataSetChanged();
-    }
-
-    private File provideStackSRSDir(){
-        // if there is (possibly emulated) external storage available, we use it
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            return getApplicationContext().getExternalFilesDir(null);
-        } else { // otherwise we use an internal directory without access from the outside
-            return getApplicationContext().getDir("StackSRS", MODE_PRIVATE);
-        }
-    }
-
-    public void showNewDeckDialog(){
+    public void showNewDeckDialog() {
         final Dialog dialog = new Dialog(DeckListActivity.this);
         dialog.setContentView(R.layout.deck_dialog);
         dialog.setTitle(getString(R.string.new_deck));
@@ -193,7 +197,7 @@ public class DeckListActivity extends AppCompatActivity
                 if (deckCollection.isIllegalDeckName(deckName)) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
-                } else if(deckCollection.deckWithNameExists(deckName)){
+                } else if (deckCollection.deckWithNameExists(deckName)) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
                             .show();
@@ -202,7 +206,7 @@ public class DeckListActivity extends AppCompatActivity
                     newDeck.addNewCard(new Card("default", "default", 2));
                     newDeck.setLanguage(editLanguage.getText().toString().trim().toLowerCase());
                     newDeck.setAccent(editAccent.getText().toString().trim().toUpperCase());
-                    if(checkBoxTTS.isChecked())
+                    if (checkBoxTTS.isChecked())
                         newDeck.activateTTS();
                     newDeck.saveDeck();
                     reloadDeckList();
@@ -212,6 +216,7 @@ public class DeckListActivity extends AppCompatActivity
         });
         dialog.show();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -245,7 +250,7 @@ public class DeckListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -254,7 +259,7 @@ public class DeckListActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Log.v(TAG,"gallery tapped");
+            Log.v(TAG, "gallery tapped");
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -269,5 +274,40 @@ public class DeckListActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+
+    }
+    public void reloadDeckList() {
+        try {
+            File flashBotDir = provideFlashBotDir();
+            deckCollection.reload(flashBotDir);
+        } catch (IOException e) {
+            Toast.makeText(this, getString(R.string.collection_could_not_be_loaded),
+                    Toast.LENGTH_SHORT).show();
+        }
+        deckListAdapter.notifyDataSetChanged();
+    }
+
+    private File provideFlashBotDir() {
+        // if there is (possibly emulated) external storage available, we use it
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            return getApplicationContext().getExternalFilesDir(null);
+        } else { // otherwise we use an internal directory without access from the outside
+            return getApplicationContext().getDir("FlashBot", MODE_PRIVATE);
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // Search should already be handled by onQueryTextChange(String)
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String partialQuery) {
+        String text = partialQuery;
+        deckListAdapter.filter(text);
+        return false;
+
     }
 }
