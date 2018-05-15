@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,7 @@ public class DeckListActivity extends AppCompatActivity
 
     private DeckInfoAdapter deckListAdapter;
     private DeckCollection deckCollection = new DeckCollection();
+    private final String TAG = "DeckListActivity";
 
     private Button newButton;
     private Button downloadButton;
@@ -53,10 +55,8 @@ public class DeckListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navdrawer);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setLogo(R.mipmap.ic_launcher);
-//        actionBar.setDisplayUseLogoEnabled(true);
-//        actionBar.setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ListView deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new DeckInfoAdapter(this, deckCollection.getDeckInfos());
@@ -122,9 +122,6 @@ public class DeckListActivity extends AppCompatActivity
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
-//        Obtained from the navDrawer
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +129,8 @@ public class DeckListActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                showNewDeckDialog();
+
             }
         });
 
@@ -255,6 +254,7 @@ public class DeckListActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Log.v(TAG,"gallery tapped");
 
         } else if (id == R.id.nav_slideshow) {
 
