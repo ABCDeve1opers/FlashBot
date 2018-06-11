@@ -8,5 +8,6 @@
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textColorSecondaryInverse">?android:attr/textColorSecondary</item>
     </style>
 </resources>

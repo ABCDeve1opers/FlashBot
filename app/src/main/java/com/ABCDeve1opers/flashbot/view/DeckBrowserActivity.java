@@ -64,6 +64,10 @@ public class DeckBrowserActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.deck_list_toolbar);
         setSupportActionBar(toolbar);
 
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+
         // normal click: edit
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -217,11 +221,15 @@ public class DeckBrowserActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.edit_deck_name){
-            Toast.makeText(getApplicationContext(),
-                    "edit deck name clicked", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()){
+            case R.id.edit_deck_name:
+                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
+
     }
 
     @Override
