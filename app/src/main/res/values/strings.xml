@@ -82,5 +82,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="new_name_prompt">New Deck Name</string>
+    <string name="rename_deck">Rename Deck</string>
+    <string name="current_deck_name">Current deck name</string>
 
 </resources>

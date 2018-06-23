@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -44,6 +45,7 @@ public class DeckBrowserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
 
     private static final int MAX_RESULTS = 200;
+    private static final int CHANGE_DECK_NAME = 1;
     private static final String TAG = "DeckBrowserActivity";
 
     private String deckName;
@@ -226,7 +228,9 @@ public class DeckBrowserActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.edit_deck_name:
 //                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
-//                Intent changeDeckNameIne
+                Intent changeDeckNameIntent = new Intent(getApplicationContext(),RenameDeckActivity.class);
+                changeDeckNameIntent.putExtra("deck name", deckName);
+                startActivityForResult(changeDeckNameIntent,CHANGE_DECK_NAME);
                 return true;
             case R.id.search_deck:
 
@@ -235,6 +239,33 @@ public class DeckBrowserActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHANGE_DECK_NAME) {
+            if(resultCode == RESULT_OK){
+//                setTitle(data.getExtras().getString("newName"));
+                String newName = data.getExtras().getString("newName");
+                Toast.makeText(getApplicationContext(),newName,Toast.LENGTH_LONG);
+                deck.changeName(newName);
+                setTitle(newName);
+                deckName = newName;
+            }else if(resultCode == RESULT_CANCELED){
+                String oldName = data.getExtras().getString("oldName");
+                setTitle(oldName);
+                getDeck(oldName);
+            }
+
+        }
+    }
+    private void getDeck(String name){
+        try {
+            deck = Deck.loadDeck(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

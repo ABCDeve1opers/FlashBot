@@ -42,7 +42,14 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/title_activity_base" />
-        <activity android:name=".RenameDeckActivity"></activity>
+        <activity android:name=".RenameDeckActivity"
+            android:parentActivityName=".DeckBrowserActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DeckBrowserActivity" />
+
+        </activity>
     </application>
 
 </manifest>
