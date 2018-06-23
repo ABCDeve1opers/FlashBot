@@ -1,5 +1,6 @@
 package com.ABCDeve1opers.flashbot.view;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,12 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.ABCDeve1opers.flashbot.model.Card;
@@ -39,7 +41,7 @@ import java.util.Locale;
  * levels of the cards.
  */
 public class DeckBrowserActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
 
     private static final int MAX_RESULTS = 200;
     private static final String TAG = "DeckBrowserActivity";
@@ -223,9 +225,12 @@ public class DeckBrowserActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.edit_deck_name:
-                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
+//                Intent changeDeckNameIne
                 return true;
+            case R.id.search_deck:
 
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -234,8 +239,17 @@ public class DeckBrowserActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_deck_actions,menu);
+        getMenuInflater().inflate(R.menu.menu_deck_actions, menu);
+
+        MenuItem searchViewItem = menu.findItem(R.id.search_deck);
+        searchViewItem.setActionView(R.layout.edit_text_field);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setIconifiedByDefault(false);
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        searchView.setLayoutParams(params);
+        searchView.setOnQueryTextListener(this);
+
         return true;
 
     }
@@ -324,6 +338,19 @@ public class DeckBrowserActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        cards.clear();
+        cards.addAll(deck.searchCards(newText, MAX_RESULTS));
+        cardAdapter.notifyDataSetChanged();
         return true;
     }
 }

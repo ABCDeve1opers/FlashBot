@@ -4,11 +4,18 @@
 
     <item
         android:title="Item"
+        android:id="@+id/search_deck"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.widget.Searchview" />
+    <item
+        android:title="Item"
         android:id="@+id/edit_deck_name"
         android:icon="@drawable/ic_create_black_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
 
         />
+
     <!--<item-->
         <!--android:title="Item"-->
         <!--android:id="@+id/add_card_to_deck"-->

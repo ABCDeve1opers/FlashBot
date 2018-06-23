@@ -14,8 +14,7 @@
         <activity
             android:name=".DeckListActivity"
             android:label="FlashBot"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,14 +29,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DeckBrowserActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".DeckListActivity">
-
-
+            android:parentActivityName=".DeckListActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DeckListActivity"
-            />
+                android:value=".DeckListActivity" />
         </activity>
         <!-- <activity -->
         <!-- android:namNavDrawerActivityvity" -->
@@ -45,8 +41,8 @@
         <!-- android:theme="@style/BlueTheme.NoActionBar"></activity> -->
         <activity
             android:name=".BaseActivity"
-            android:label="@string/title_activity_base"
-            ></activity>
+            android:label="@string/title_activity_base" />
+        <activity android:name=".RenameDeckActivity"></activity>
     </application>
 
 </manifest>
