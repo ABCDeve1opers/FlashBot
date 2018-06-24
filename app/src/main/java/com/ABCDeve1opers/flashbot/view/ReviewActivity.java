@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +51,13 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.deck_review_toolbar);
+        setSupportActionBar(toolbar);
+
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
 
         frontText = (TextView) findViewById(R.id.text_front);
         backText = (TextView) findViewById(R.id.text_back);
@@ -202,6 +210,14 @@ public class ReviewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_reviewactivity, menu);
+        return true;
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(getApplicationContext(),RenameDeckActivity.class);
+        intent.putExtra("oldName",deckName);
+        setResult(RESULT_CANCELED,intent);
+        finish();
         return true;
     }
 

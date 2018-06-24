@@ -5,77 +5,107 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ABCDeve1opers.flashbot.view.ReviewActivity">
-
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:padding="15dp"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/text_front"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/BlueTheme.AppBarOverlay">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:id="@+id/separator"
-        android:visibility="visible"
-        android:background="@android:color/darker_gray"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/deck_review_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/BlueTheme.PopupOverlay"
+            />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="15dp"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/text_back"
-        />
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:id="@+id/linear_layout">
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
-            android:background="#ff5252"
-            android:text="@string/wrong"
-            android:id="@+id/button_wrong"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#4fc3f7"
-            android:text="@string/show_answer"
-            android:id="@+id/button_answer"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:padding="15dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/text_front"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#bdc3c7"
-            android:text="@string/speak_answer"
-            android:id="@+id/button_speak"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:id="@+id/separator"
+            android:visibility="visible"
+            android:background="@android:color/darker_gray"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:background="#00c853"
-            android:text="@string/correct"
-            android:id="@+id/button_correct"/>
+            android:padding="15dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/text_back"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:id="@+id/linear_layout">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="#ff5252"
+                android:text="@string/wrong"
+                android:theme="@style/BlueTheme.Buttons"
+                android:id="@+id/button_wrong"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#4fc3f7"
+                android:theme="@style/BlueTheme.Buttons"
+                android:text="@string/show_answer"
+                android:id="@+id/button_answer"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#bdc3c7"
+                android:theme="@style/BlueTheme.Buttons"
+                android:text="@string/speak_answer"
+                android:id="@+id/button_speak"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:theme="@style/BlueTheme.Buttons"
+                android:background="#00c853"
+                android:text="@string/correct"
+                android:id="@+id/button_correct"/>
+        </LinearLayout>
     </LinearLayout>
+
+
+
 </LinearLayout>

@@ -17,6 +17,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="BlueTheme.Buttons" parent="BlueTheme">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 
 

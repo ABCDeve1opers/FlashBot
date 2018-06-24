@@ -157,6 +157,47 @@ public class DeckBrowserActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
+                intent.putExtra("deck name", deckName);
+                startActivity(intent);
+            }
+        });
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        try {
+            deck = Deck.loadDeck(deckName);
+        } catch(IOException e){
+            Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        displayCardList("");
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.edit_deck_name:
+//                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
+                Intent changeDeckNameIntent = new Intent(getApplicationContext(),RenameDeckActivity.class);
+                changeDeckNameIntent.putExtra("deck name", deckName);
+                startActivityForResult(changeDeckNameIntent,CHANGE_DECK_NAME);
+                return true;
+            case R.id.action_add:
                 final Dialog dialog = new Dialog(DeckBrowserActivity.this);
                 dialog.setContentView(R.layout.card_dialog);
                 dialog.setTitle(getString(R.string.add_new_card));
@@ -195,46 +236,8 @@ public class DeckBrowserActivity extends AppCompatActivity
                 });
                 dialog.show();
 
-            }
-        });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        try {
-            deck = Deck.loadDeck(deckName);
-        } catch(IOException e){
-            Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
-                    Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-        displayCardList("");
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.edit_deck_name:
-//                Toast.makeText(getApplicationContext(), "edit deck name clicked", Toast.LENGTH_SHORT).show();
-                Intent changeDeckNameIntent = new Intent(getApplicationContext(),RenameDeckActivity.class);
-                changeDeckNameIntent.putExtra("deck name", deckName);
-                startActivityForResult(changeDeckNameIntent,CHANGE_DECK_NAME);
                 return true;
-            case R.id.search_deck:
 
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -47,7 +47,9 @@
             android:id="@+id/rename_deck_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rename_deck" />
+            android:text="@string/rename_deck"
+            android:theme="@style/BlueTheme.Buttons"
+            />
     </LinearLayout>
 
 </LinearLayout>
