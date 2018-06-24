@@ -1,5 +1,6 @@
 package com.ABCDeve1opers.flashbot.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class RenameDeckActivity extends AppCompatActivity {
     private TextView currentDeckName;
     private Button renameDeck;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +30,10 @@ public class RenameDeckActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.rename_deck_toolbar);
         setSupportActionBar(toolbar);
-
+//        toolbar.setTitleTextColor();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Rename Deck");
+        setTitle(getString(R.string.rename_deck));
         newDeckName.setText(deckName);
 
         renameDeck.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +56,9 @@ public class RenameDeckActivity extends AppCompatActivity {
     private void updateDeckName() {
         String newDeckNameString = newDeckName.getText().toString();
         if (newDeckNameString.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Please enter a name for the deck",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),getString(R.string.enter_deck_name),Toast.LENGTH_LONG);
         }else  if(newDeckNameString == deckName){
-            Toast.makeText(getApplicationContext(),"Please enter a new deck name",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),getString(R.string.new_deck_name_prompt),Toast.LENGTH_LONG);
         }else{
             Intent intent = new Intent(getApplicationContext(),RenameDeckActivity.class);
             intent.putExtra("newName",newDeckNameString);

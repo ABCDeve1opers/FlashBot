@@ -85,5 +85,7 @@
     <string name="new_name_prompt">New Deck Name</string>
     <string name="rename_deck">Rename Deck</string>
     <string name="current_deck_name">Current deck name</string>
+    <string name="enter_deck_name">Please enter a name for the deck</string>
+    <string name="new_deck_name_prompt">Please enter a new deck name</string>
 
 </resources>

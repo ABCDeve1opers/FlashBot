@@ -14,7 +14,8 @@
         <activity
             android:name=".DeckListActivity"
             android:label="FlashBot"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
