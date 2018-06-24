@@ -37,6 +37,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
 
     private final String SERVER_URL = "http://flashbot.droppages.com/";
 
+
     private DownloadableDeckInfoAdapter deckListAdapter;
     private List<DownloadableDeckInfo> deckNames = new ArrayList<>();
 
