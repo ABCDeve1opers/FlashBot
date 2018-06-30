@@ -11,10 +11,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,7 +45,7 @@ import java.util.List;
  * (red) and the number of cards already mastered (green) is displayed.
  */
 
-public class DeckListActivity extends BaseActivity
+public class DeckListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
 
 
@@ -49,11 +53,9 @@ public class DeckListActivity extends BaseActivity
     private DeckCollection deckCollection = new DeckCollection();
     private final String TAG = "DeckListActivity";
 
-    private Button newButton;
-    private Button downloadButton;
 
     private static List<DeckInfo> deckList;
-    private SearchView deckSearchView;
+//    private SearchView deckSearchView;
 
     public static List<DeckInfo> getDeckList() {
         return deckList;
@@ -69,12 +71,18 @@ public class DeckListActivity extends BaseActivity
         reloadDeckList();
     }
 
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navdrawer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.deck_list_toolbar);
         setSupportActionBar(toolbar);
 
         ListView deckListView = (ListView) findViewById(R.id.deck_list);
@@ -82,9 +90,7 @@ public class DeckListActivity extends BaseActivity
         deckListAdapter = new DeckInfoAdapter(this, deckList);
         deckListView.setAdapter(deckListAdapter);
 
-        // Locate the EditText in activity_deck_list.xml for searching
-        deckSearchView = (SearchView) findViewById(R.id.deckSearchView);
-        deckSearchView.setOnQueryTextListener(this);
+
 
         // normal click: open deck
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -127,25 +133,7 @@ public class DeckListActivity extends BaseActivity
             }
         });
 
-//        newButton = (Button) findViewById(R.id.button_new);
-//        downloadButton = (Button) findViewById(R.id.button_download);
-//
-//        newButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showNewDeckDialog();
-//            }
-//        });
-//
-//        downloadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // switch to download activity
-//                Intent intent = new Intent(getApplicationContext(), DeckDownloadActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
@@ -169,7 +157,23 @@ public class DeckListActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navdrawer, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.search_deck_list);
+        searchViewItem.setActionView(R.layout.edit_text_field);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setIconifiedByDefault(false);
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        searchView.setLayoutParams(params);
+        searchView.setOnQueryTextListener(this);
+        searchView.setIconifiedByDefault(true);
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+        searchView.requestFocusFromTouch();
+        return true;
+    }
     public void showNewDeckDialog() {
         final Dialog dialog = new Dialog(DeckListActivity.this);
         dialog.setContentView(R.layout.deck_dialog);

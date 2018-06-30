@@ -65,7 +65,7 @@ public class DeckBrowserActivity extends AppCompatActivity
         cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cards);
         cardList.setAdapter(cardAdapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.deck_list_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.deck_browser_toolbar);
         setSupportActionBar(toolbar);
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
@@ -274,7 +274,11 @@ public class DeckBrowserActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_deck_actions, menu);
+        return true;
 
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem searchViewItem = menu.findItem(R.id.search_deck);
         searchViewItem.setActionView(R.layout.edit_text_field);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
@@ -283,9 +287,7 @@ public class DeckBrowserActivity extends AppCompatActivity
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
         searchView.setLayoutParams(params);
         searchView.setOnQueryTextListener(this);
-
-        return true;
-
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void displayCardList(String searchTerm){
@@ -379,6 +381,9 @@ public class DeckBrowserActivity extends AppCompatActivity
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
+
+
+
 
     @Override
     public boolean onQueryTextChange(String newText) {
