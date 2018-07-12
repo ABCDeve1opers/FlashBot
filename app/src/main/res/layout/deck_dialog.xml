@@ -11,12 +11,12 @@
         android:text="@string/deck_name"
         android:id="@+id/label_deck_name"/>
 
-    <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:inputType="text"-->
-        <!--android:id="@+id/edit_deck_name"-->
-        <!--android:layout_gravity="center_horizontal"/>-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:inputType="text"
+        android:id="@+id/edit_deck_name"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="500dp"
