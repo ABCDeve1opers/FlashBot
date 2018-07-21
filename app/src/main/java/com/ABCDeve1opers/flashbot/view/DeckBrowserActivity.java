@@ -3,6 +3,7 @@ package com.ABCDeve1opers.flashbot.view;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -17,9 +18,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,7 +47,8 @@ import java.util.Locale;
  * levels of the cards.
  */
 public class DeckBrowserActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SearchView.OnQueryTextListener, AbsListView.MultiChoiceModeListener {
 
     private static final int MAX_RESULTS = 200;
     private static final int CHANGE_DECK_NAME = 1;
@@ -62,8 +68,11 @@ public class DeckBrowserActivity extends AppCompatActivity
         Log.v(TAG,"oncreate deckbrowser activity");
 
         final ListView cardList = (ListView) findViewById(R.id.card_list);
-        cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cards);
+        ContextWrapper themedContex = new ContextThemeWrapper(this, R.style.BlueTheme);
+        cardAdapter = new ArrayAdapter<>(themedContex, android.R.layout.simple_list_item_activated_1, cards);
         cardList.setAdapter(cardAdapter);
+        cardList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.deck_browser_toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +80,36 @@ public class DeckBrowserActivity extends AppCompatActivity
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        //setup multi choice list
+        cardList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+//                Toast.makeText(getApplicationContext(),"context menu was clicked" , Toast.LENGTH_LONG).show();
 
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.context_menu,menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
         // normal click: edit
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,30 +158,32 @@ public class DeckBrowserActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final Card card = cardAdapter.getItem(position);
-                AlertDialog.Builder dialog = new AlertDialog.Builder(DeckBrowserActivity.this);
-                dialog.setTitle(getString(R.string.delete_card));
-                dialog.setMessage(getString(R.string.really_delete_card));
-                dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(deck.deleteCard(card)) {
-                            Log.v(TAG,"delete card called");
-                            cards.remove(position);
-                            cardAdapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    getString(R.string.cannot_delete_last_card),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.create().show();
+
+
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(DeckBrowserActivity.this);
+//                dialog.setTitle(getString(R.string.delete_card));
+//                dialog.setMessage(getString(R.string.really_delete_card));
+//                dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if(deck.deleteCard(card)) {
+//                            Log.v(TAG,"delete card called");
+//                            cards.remove(position);
+//                            cardAdapter.notifyDataSetChanged();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),
+//                                    getString(R.string.cannot_delete_last_card),
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.create().show();
                 return true;
             }
         });
@@ -394,4 +434,48 @@ public class DeckBrowserActivity extends AppCompatActivity
         cardAdapter.notifyDataSetChanged();
         return true;
     }
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.context_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        //peform updates to CAB due to an invalidate() reuquest
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_items:
+                deleteSelectedItems();
+                mode.finish();
+                return true;
+
+            default:
+                return false;
+        }
+
+    }
+
+    private void deleteSelectedItems() {
+        Toast.makeText(getApplicationContext(),"context menu was clicked" , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        //Make any updates to the activity when CAB is removed.
+    }
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+        //here do somthin as update selecte/deselected item
+        Toast.makeText(getApplicationContext(),"context menu was clicked" , Toast.LENGTH_LONG).show();
+
+    }
+
+
 }
