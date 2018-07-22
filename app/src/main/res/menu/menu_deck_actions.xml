@@ -10,16 +10,26 @@
         app:actionViewClass="android.widget.Searchview" />
 
     <item
-        android:title="Item"
+        android:title="@string/edit_deck_name"
         android:id="@+id/edit_deck_name"
         android:icon="@drawable/ic_create_black_24dp"
         app:showAsAction="always"
         />
     <item
-        android:title="Item"
+        android:title="@string/add_new_card"
         android:id="@+id/action_add"
         android:icon="@drawable/ic_add_black_24dp"
-        app:showAsAction="always"
+        app:showAsAction="never"
+        />
+    <item
+        android:title="@string/shuffle_deck"
+        android:id="@+id/action_shuffle"
+        app:showAsAction="never"
+        />
+    <item
+        android:title="@string/reset_card_strength"
+        android:id="@+id/action_reset"
+        app:showAsAction="never"
         />
 
 </menu>

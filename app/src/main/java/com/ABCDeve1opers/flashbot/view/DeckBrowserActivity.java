@@ -82,9 +82,17 @@ public class DeckBrowserActivity extends AppCompatActivity
 
         //setup multi choice list
         cardList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            List<Integer> choices = new ArrayList<>();
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
 //                Toast.makeText(getApplicationContext(),"context menu was clicked" , Toast.LENGTH_LONG).show();
+                final int checkedCount = cardList.getCheckedItemCount();
+                mode.setTitle(checkedCount + " Selected");
+                if (checked){
+                    choices.add(position);
+                }else{
+                    choices.remove(Integer.valueOf(position));
+                }
 
             }
 
@@ -102,13 +110,32 @@ public class DeckBrowserActivity extends AppCompatActivity
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                return false;
+                switch (item.getItemId()){
+                    case R.id.delete_items:
+                        for(int i =0; i<choices.size(); i++){
+                            Card card = cards.get(choices.get(i));
+                            if(deck.deleteCard(card)){
+                                cards.remove(choices.get(i));
+                                cardAdapter.remove(card);
+                                cardAdapter.notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(getApplicationContext(),
+                                        R.string.cannot_delete_card + card.getFront(),Toast.LENGTH_LONG);
+                            }
+
+                        }
+                        mode.finish();
+                        return true;
+
+                    default:
+                        return false;
+                }
             }
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-
-            }
+                cardAdapter.notifyDataSetChanged();
+                }
         });
         // normal click: edit
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,41 +180,6 @@ public class DeckBrowserActivity extends AppCompatActivity
             }
         });
 
-        // long click: delete
-        cardList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final Card card = cardAdapter.getItem(position);
-
-
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(DeckBrowserActivity.this);
-//                dialog.setTitle(getString(R.string.delete_card));
-//                dialog.setMessage(getString(R.string.really_delete_card));
-//                dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if(deck.deleteCard(card)) {
-//                            Log.v(TAG,"delete card called");
-//                            cards.remove(position);
-//                            cardAdapter.notifyDataSetChanged();
-//                        } else {
-//                            Toast.makeText(getApplicationContext(),
-//                                    getString(R.string.cannot_delete_last_card),
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                        dialog.dismiss();
-//                    }
-//                });
-//                dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                dialog.create().show();
-                return true;
-            }
-        });
-
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         deckName = getIntent().getStringExtra("deck name");
@@ -203,14 +195,6 @@ public class DeckBrowserActivity extends AppCompatActivity
             }
         });
 
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -402,17 +386,6 @@ public class DeckBrowserActivity extends AppCompatActivity
         if (id == R.id.nav_manage) {
             // Handle the camera action
         }
-//        else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
