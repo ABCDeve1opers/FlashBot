@@ -34,14 +34,10 @@ import java.util.Locale;
  * decide for himself if his answer was correct enough. After that, the card is put back in the deck
  * and the next card is shown.
  */
-public class ReviewActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class ReviewTTSActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private TextView frontText;
     private TextView backText;
-    private Button wrongButton;
-    private Button answerButton;
-    private Button speakButton;
-    private Button correctButton;
 
     private String deckName;
     private Deck deck;
@@ -62,37 +58,6 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
 
         frontText = (TextView) findViewById(R.id.text_front);
         backText = (TextView) findViewById(R.id.text_back);
-        wrongButton = (Button) findViewById(R.id.button_wrong);
-        answerButton = (Button) findViewById(R.id.button_answer);
-        speakButton = (Button) findViewById(R.id.button_speak);
-        correctButton = (Button) findViewById(R.id.button_correct);
-
-        wrongButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deck.putReviewedCardBack(false);
-                showNextCard();
-            }
-        });
-        correctButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deck.putReviewedCardBack(true);
-                showNextCard();
-            }
-        });
-        answerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBack();
-            }
-        });
-        speakButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speakWord(backText.getText().toString());
-            }
-        });
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -100,16 +65,16 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         reloadDeck();
     }
 
-    private void reloadDeck(){
+    private void reloadDeck() {
         setTitle(deckName);
         try {
             deck = Deck.loadDeck(deckName);
-            if(!deck.isUsingTTS() && !deck.getLanguage().equals("") && deck.isNew())
+            if (!deck.isUsingTTS() && !deck.getLanguage().equals("") && deck.isNew())
                 askForTTSActivation();
 //            if(deck.isUsingTTS())
 //                initTTS();
@@ -126,17 +91,13 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                 }
             };
             for (int i = 1; i <= deck.getNumberOfCards(); i++) {
-                wrongButton.setVisibility(View.GONE);
-                correctButton.setVisibility(View.GONE);
-                answerButton.setVisibility(View.GONE);
-                speakButton.setVisibility(View.GONE);
                 if (i == 1) {
                     showNextCard();
                 }
                 handler.postDelayed(answerDelay, 5000);
                 handler.postDelayed(nextCardDelay, 5000);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
             finish();
@@ -145,7 +106,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
         }
     }
 
-    private void askForTTSActivation(){
+    private void askForTTSActivation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.activate_tts_new_deck));
         builder.setMessage(getString(R.string.want_activate_tts));
@@ -166,10 +127,10 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
         alert.show();
     }
 
-    private void initTTS(){
+    private void initTTS() {
         final Locale locale = getLocaleForTTS();
-        if(locale != null){
-            tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
+        if (locale != null) {
+            tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
                     if (status == TextToSpeech.SUCCESS) {
@@ -180,56 +141,47 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
         }
     }
 
-    private Locale getLocaleForTTS(){
+    private Locale getLocaleForTTS() {
         String lang = deck.getLanguage();
-        if(lang == null || lang.equals(""))
+        if (lang == null || lang.equals(""))
             return null;
         String country = deck.getAccent();
-        if(country == null || country.equals(""))
+        if (country == null || country.equals(""))
             return new Locale(lang);
         return new Locale(lang, country);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(deck != null){
+        if (deck != null) {
             deck.saveDeck();
         }
-        if(tts != null){
+        if (tts != null) {
             tts.shutdown();
             tts = null;
         }
     }
 
-    private void showNextCard(){
+    private void showNextCard() {
         frontText.setText(deck.getNextCardToReview().getFront());
         backText.setText("");
-        wrongButton.setVisibility(View.GONE);
-        correctButton.setVisibility(View.GONE);
-        answerButton.setVisibility(View.VISIBLE);
-        speakButton.setVisibility(View.GONE);
         if (deck.isUsingTTS()) {
-            speakButton.setVisibility(View.VISIBLE);
             speakWord((String) frontText.getText().toString());
         }
     }
 
-    private void showBack(){
+    private void showBack() {
         String back = deck.getNextCardToReview().getBack();
         backText.setText(deck.getNextCardToReview().getBack());
-        wrongButton.setVisibility(View.VISIBLE);
-        correctButton.setVisibility(View.VISIBLE);
-        answerButton.setVisibility(View.GONE);
 
-        if(deck.isUsingTTS()) {
-            speakButton.setVisibility(View.VISIBLE);
+        if (deck.isUsingTTS()) {
             speakWord(back);
         }
     }
 
-    private void speakWord(String text){
-        if(tts == null)
+    private void speakWord(String text) {
+        if (tts == null)
             return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
@@ -243,19 +195,20 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
         getMenuInflater().inflate(R.menu.menu_reviewactivity, menu);
         return true;
     }
+
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(getApplicationContext(),RenameDeckActivity.class);
-        intent.putExtra("oldName",deckName);
-        setResult(RESULT_CANCELED,intent);
+        Intent intent = new Intent(getApplicationContext(), RenameDeckActivity.class);
+        intent.putExtra("oldName", deckName);
+        setResult(RESULT_CANCELED, intent);
         finish();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_add){
-            final Dialog dialog = new Dialog(ReviewActivity.this);
+        if (item.getItemId() == R.id.action_add) {
+            final Dialog dialog = new Dialog(ReviewTTSActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle(getString(R.string.add_new_card));
             final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
@@ -276,7 +229,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                     if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
-                    else if(back.length() == 0)
+                    else if (back.length() == 0)
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
@@ -287,8 +240,8 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                 }
             });
             dialog.show();
-        } else if(item.getItemId() == R.id.action_edit){
-            final Dialog dialog = new Dialog(ReviewActivity.this);
+        } else if (item.getItemId() == R.id.action_edit) {
+            final Dialog dialog = new Dialog(ReviewTTSActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle(getString(R.string.edit_current_card));
             final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
@@ -311,7 +264,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                     if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
-                    else if(back.length() == 0)
+                    else if (back.length() == 0)
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
@@ -322,7 +275,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                 }
             });
             dialog.show();
-        } else if(item.getItemId() == R.id.action_delete){
+        } else if (item.getItemId() == R.id.action_delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.delete_current_card));
             builder.setMessage(getString(R.string.really_delete_card));
@@ -335,7 +288,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
             builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     boolean successful = deck.deleteCurrentCard();
-                    if(!successful)
+                    if (!successful)
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.cannot_delete_last_card), Toast.LENGTH_SHORT)
                                 .show();
@@ -345,12 +298,12 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
             });
             AlertDialog alert = builder.create();
             alert.show();
-        } else if(item.getItemId() == R.id.action_browser){
+        } else if (item.getItemId() == R.id.action_browser) {
             Intent intent = new Intent(getApplicationContext(), DeckBrowserActivity.class);
             intent.putExtra("deck name", deck.getName());
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_options) {
-            final Dialog dialog = new Dialog(ReviewActivity.this);
+            final Dialog dialog = new Dialog(ReviewTTSActivity.this);
             dialog.setContentView(R.layout.deck_dialog);
             dialog.setTitle(getString(R.string.deck_options));
             final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
@@ -375,7 +328,7 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                     DeckCollection deckCollection = new DeckCollection();
                     try {
                         deckCollection.reload(DeckCollection.flashBotDir);
-                    } catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     String newDeckName = editDeckName.getText().toString().trim();
@@ -383,18 +336,18 @@ public class ReviewActivity extends AppCompatActivity implements TextToSpeech.On
                     if (deckCollection.isIllegalDeckName(newDeckName)) {
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
-                    } else if(deckNameChanged && deckCollection.deckWithNameExists(newDeckName)){
+                    } else if (deckNameChanged && deckCollection.deckWithNameExists(newDeckName)) {
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.deck_already_exists, newDeckName), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
-                        if(deckNameChanged) {
+                        if (deckNameChanged) {
                             deck.changeName(newDeckName);
                             deckName = newDeckName;
                         }
                         deck.setLanguage(editLanguage.getText().toString().trim().toLowerCase());
                         deck.setAccent(editAccent.getText().toString().trim().toUpperCase());
-                        if(checkBoxTTS.isChecked())
+                        if (checkBoxTTS.isChecked())
                             deck.activateTTS();
                         else
                             deck.deactivateTTS();

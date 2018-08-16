@@ -255,4 +255,8 @@ public class Deck {
         return true;
     }
 
+    public int getNumberOfCards() {
+        return stack.size();
+    }
+
 }
