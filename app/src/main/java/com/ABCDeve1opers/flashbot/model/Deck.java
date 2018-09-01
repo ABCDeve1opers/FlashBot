@@ -21,7 +21,7 @@ public class Deck {
     private String name;
     private String language;
     private String accent; // to determine which accent to use for TTS
-    private boolean useTTS;
+    private boolean useTTS; // TODO move this to BaseActivity? - Not here at least
 
     private List<Card> stack = new ArrayList<>();
 

@@ -35,4 +35,11 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/checkable_menu"
+        android:checkable="true"
+        android:title="Toggle Text to Speech" />
+    <!-- TODO move strings to strings.xml -->
+    <!-- TODO give icon to this item -->
+    <!-- TODO make buttons do something -->
 </menu>
