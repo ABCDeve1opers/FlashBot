@@ -87,5 +87,13 @@
     <string name="current_deck_name">Current deck name</string>
     <string name="enter_deck_name">Please enter a name for the deck</string>
     <string name="new_deck_name_prompt">Please enter a new deck name</string>
+    <string name="toggle_text_to_speech">Toggle Text to Speech</string>
+    <string name="send">Send</string>
+    <string name="share">Share</string>
+    <string name="tools">Tools</string>
+    <string name="communicate">Communicate</string>
+    <string name="gallery">Gallery</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="import_option">Import</string>
 
 </resources>

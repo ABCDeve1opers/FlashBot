@@ -60,6 +60,7 @@ public class DeckBrowserActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_browser);
         Log.v(TAG,"oncreate deckbrowser activity");
+        initTTS();
 
         final ListView cardList = (ListView) findViewById(R.id.card_list);
         cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cards);
@@ -306,7 +307,7 @@ public class DeckBrowserActivity extends AppCompatActivity
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 deck.activateTTS();
-                initTTS();
+                // initTTS();
                 dialog.dismiss();
             }
         });
@@ -341,10 +342,11 @@ public class DeckBrowserActivity extends AppCompatActivity
         try {
             deck = Deck.loadDeck(deckName);
             if(!deck.isUsingTTS() && !deck.getLanguage().equals("") && deck.isNew())
-                askForTTSActivation();
-            if(deck.isUsingTTS())
-                initTTS();
-//            showNextCard();
+                //  askForTTSActivation();
+                if (deck.isUsingTTS()) {
+                }
+            //  initTTS();
+            //showNextCard();
         } catch(IOException e){
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
