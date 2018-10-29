@@ -231,7 +231,6 @@ public class DeckBrowserActivity extends AppCompatActivity
                             cardAdapter.notifyDataSetChanged();
                             dialog.dismiss();
 
-
                         }
                     }
                 });
